@@ -10,5 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "three": "^0.128.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/V1ncentLiu/308ExtraAssessment.git"
+  },
+  "bugs": {
+    "url": "https://github.com/V1ncentLiu/308ExtraAssessment/issues"
+  },
+  "homepage": "https://github.com/V1ncentLiu/308ExtraAssessment#readme"
 }
