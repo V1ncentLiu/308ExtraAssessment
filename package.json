@@ -1,23 +1,15 @@
 {
   "name": "pong-peitongliu",
   "version": "1.0.0",
-  "description": "extra assessment",
+  "description": "",
   "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Peitong Liu",
-  "license": "ISC",
   "dependencies": {
     "three": "^0.128.0"
   },
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/V1ncentLiu/308ExtraAssessment.git"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bugs": {
-    "url": "https://github.com/V1ncentLiu/308ExtraAssessment/issues"
-  },
-  "homepage": "https://github.com/V1ncentLiu/308ExtraAssessment#readme"
+  "author": "Peitong Liu",
+  "license": "ISC"
 }
