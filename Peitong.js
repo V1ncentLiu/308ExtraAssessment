@@ -1,4 +1,4 @@
-let renderer, scene, camera, pointlight, spotlight;
+let renderer, scene, camera, pointlight, spotlight, shaderMaterial;
 let fieldW = 400,
     fieldH = 200;
 let blockW, blockH, blockD, blockQ;
@@ -15,6 +15,9 @@ let score1 = 0,
     scoreMax = 15;
 let diff = 0.5;
 let TABLE_TEXTURE_IMG = "floor-wood.jpg";
+const clock = new THREE.Clock();
+const __shader = Shaders.S01;
+
 function init() {
     document.getElementById("winCondition").innerHTML =
         "First to " + scoreMax + "wins!";
@@ -31,6 +34,14 @@ function createScene() {
         NEAR = 1,
         FAR = 1000000;
     var c = document.getElementById("canvas");
+    shaderMaterial = new THREE.ShaderMaterial(
+        {
+            uniforms: __shader.uniforms,
+            vertexShader:__shader.vertexShader,
+            fragmentShader:__shader.fragmentShader,
+            transparent:true,
+        }
+    );
     renderer = new THREE.WebGLRenderer({ antialias: true });
     camera = new THREE.PerspectiveCamera(FOV, ASPRTO, NEAR, FAR);
     scene = new THREE.Scene();
@@ -43,7 +54,7 @@ function createScene() {
         planeQ = 10;
     var block1Mat = new THREE.MeshLambertMaterial({ color: 0x66ccff });
     var block2Mat = new THREE.MeshLambertMaterial({ color: 0xf00606 });
-    var planeMat = new THREE.MeshLambertMaterial({ color: 0x000000 });
+    var planeMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
     var tableMat = new THREE.MeshLambertMaterial({ color: 0x111111 });
     var sidesMat = new THREE.MeshLambertMaterial({ color: 0x000000 });
     Texture = new THREE.TextureLoader().load(TABLE_TEXTURE_IMG);
@@ -64,10 +75,12 @@ function createScene() {
     var ballRad = 6,
         ballSeg = 6,
         ballRings = 6;
-    var ballMat = new THREE.MeshLambertMaterial({ color: 0xddddff });
+    
+    __shader.uniforms.textureA.value = new THREE.TextureLoader().load('stone-bump.jpg');
+    __shader.uniforms.textureB.value = new THREE.TextureLoader().load('floor-wood.jpg')
     ball = new THREE.Mesh(
-        new THREE.SphereGeometry(ballRad, ballSeg, ballRings),
-        ballMat
+        new THREE.SphereBufferGeometry(ballRad, ballSeg, ballRings),
+        shaderMaterial
     );
     scene.add(ball);
     ball.position.x = 0;
@@ -75,6 +88,7 @@ function createScene() {
     ball.position.z = ballRad;
     ball.receiveShadow = true;
     ball.castShadow = true;
+
     blockW = 10;
     blockH = 32;
     blockD = 10;
@@ -117,8 +131,9 @@ function createScene() {
 }
 
 function renderScene() {
-    renderer.render(scene, camera);
     requestAnimationFrame(renderScene);
+    __shader.uniforms.time.value = clock.getElapsedTime();
+    renderer.render(scene, camera);
     ballPhys();
     blockPhys();
     cam();
